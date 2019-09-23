@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+  <meta charset="utf-8" />
+  <title>Webthereum - Explorer</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="" name="keywords" />
+  <meta content="" name="description" />
+
+  <link href="img/favicon.png" rel="icon" />
+  <link href="img/apple-touch-icon.png" rel="apple-touch-icon" />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700" rel="stylesheet" />
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+</h:head>
+
+<body>
+  <!-- Static navbar -->
+  <div class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        <a class="navbar-brand" href="index.xhtml">Webthereum</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="account.xhtml">Account</a></li>
+          <li><a href="transfer.xhtml">Transfer</a></li>
+          <li><a href="explorer.xhtml">Explorer</a></li>
+          <li><a href="history.xhtml">History</a></li>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </div>
+
+  <!-- +++++ Welcome Section +++++ -->
+  <div id="ww">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 centered">
+          <img src="img/user.png" alt="Stanley" />
+          <h1>Explorer</h1>
+        </div>
+        <!-- /col-lg-8 -->
+      </div>
+      <!-- /row -->
+    </div>
+    <!-- /container -->
+  </div>
+  <!-- /ww -->
+
+
+  <!-- +++++ Information Section +++++ -->
+  <h:form>
+  <div class="container pt">
+      <h:dataTable border="1" value="#{explorerBean.blockList}" var="ethblock">
+        <h:column>
+          <f:facet name="header">
+            <h:outputText value="Block Number" />
+          </f:facet>
+          <h:commandLink action="#{explorerBean.detail(ethblock.getResult().getNumber().toString())}">
+            <h:outputText value="#{ethblock.getResult().getNumber()}" />
+            <f:param name="blockNumber" value="#{ethblock.getResult().getNumber().toString()}" />
+           </h:commandLink>
+        </h:column>
+        <h:column>
+          <f:facet name="header">
+            <h:outputText value="Block Hash" />
+          </f:facet>
+          <h:outputText value="#{ethblock.getResult().getHash()}" />
+        </h:column>
+      </h:dataTable>
+  </div>
+  <!-- /container -->
+  </h:form>
+  <!-- +++++ Footer Section +++++ -->
+
+  <div id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <h4>My Bunker</h4>
+          <p>
+            Some Address 987,<br/> +34 9054 5455, <br/> Madrid, Spain.
+          </p>
+        </div>
+        <!-- /col-lg-4 -->
+
+        <div class="col-lg-4">
+          <h4>My Links</h4>
+          <p>
+            <a href="#">Dribbble</a><br/>
+            <a href="#">Twitter</a><br/>
+            <a href="#">Facebook</a>
+          </p>
+        </div>
+        <!-- /col-lg-4 -->
+
+        <div class="col-lg-4">
+          <h4>About Stanley</h4>
+          <p>This cute theme was created to showcase your work in a simple way. Use it wisely.</p>
+        </div>
+        <!-- /col-lg-4 -->
+      </div>
+    </div>
+  </div>
+
+  <div id="copyrights">
+    <div class="container">
+      <p>
+        &#169; Copyrights <strong>Stanley</strong>. All Rights Reserved
+      </p>
+      <div class="credits">
+        <!--
+          You are NOT allowed to delete the credit link to TemplateMag with free version.
+          You can delete the credit link only if you bought the pro version.
+          Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/stanley-bootstrap-freelancer-template/
+          Licensing information: https://templatemag.com/license/
+        -->
+        Created with Stanley template by <a href="https://templatemag.com/">TemplateMag</a>
+      </div>
+    </div>
+  </div>
+  <!-- / copyrights -->
+
+  <!-- JavaScript Libraries -->
+  <script src="lib/jquery/jquery.min.js"></script>
+  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="lib/php-mail-form/validate.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="js/main.js"></script>
+
+</body>
+</html>

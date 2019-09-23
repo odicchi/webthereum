@@ -1,0 +1,163 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>jp</groupId>
+  <artifactId>ethereum</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>ethereum</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.25</version>
+    </dependency>
+   <!-- https://mvnrepository.com/artifact/org.web3j/core -->
+	<dependency>
+	    <groupId>org.web3j</groupId>
+	    <artifactId>core</artifactId>
+	    <version>4.5.0</version>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.web3j/parity -->
+	<dependency>
+	    <groupId>org.web3j</groupId>
+	    <artifactId>parity</artifactId>
+	    <version>4.5.0</version>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.web3j/parity -->
+	<dependency>
+	    <groupId>org.web3j</groupId>
+	    <artifactId>crypto</artifactId>
+	    <version>4.5.0</version>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.web3j/parity -->
+	<dependency>
+	    <groupId>org.web3j</groupId>
+	    <artifactId>abi</artifactId>
+	    <version>4.5.0</version>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.web3j/parity -->
+	<dependency>
+	    <groupId>org.web3j</groupId>
+	    <artifactId>codegen</artifactId>
+	    <version>4.5.0</version>
+	</dependency>
+	<dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+  </dependency>
+  <dependency>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+      <version>6.0</version>
+  </dependency>
+
+  <dependency>
+    <groupId>javax</groupId>
+    <artifactId>javaee-api</artifactId>
+    <version>7.0</version>
+    <scope>provided</scope>
+  </dependency>
+
+  <dependency>
+    <groupId>javax.faces</groupId>
+    <artifactId>javax.faces-api</artifactId>
+    <version>2.2</version>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
+    <groupId>javax.faces</groupId>
+    <artifactId>jsf-api</artifactId>
+    <version>2.1</version>
+  </dependency>
+  <dependency>
+    <groupId>org.glassfish</groupId>
+    <artifactId>javax.faces</artifactId>
+    <version>2.2.8-02</version>
+    <scope>runtime</scope>
+  </dependency>
+
+  <dependency>
+    <groupId>javax.enterprise</groupId>
+    <artifactId>cdi-api</artifactId>
+    <version>1.2</version>
+    <scope>provided</scope>
+  </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>webthereum</finalName>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.6</version>
+          <executions>
+            <execution>
+              <id>make-war</id>
+              <phase>package</phase>
+              <goals>
+                <goal>war</goal>
+              </goals>
+              <configuration>
+                 <glassfishDirectory>C:/glassfish4</glassfishDirectory>
+                <webxml>src/main/webapp/WEB-INF/web.xml</webxml>
+                <failOnMissingWebXml>false</failOnMissingWebXml>
+                <debug>true</debug>
+                <echo>true</echo>
+                <components>
+                  <component>
+                    <name>${project.artifactId}</name>
+                    <artifact>${project.build.directory}/${project.build.finalName}.war</artifact>
+                  </component>
+                </components>
+                <webResources>
+                  <resource>
+                    <directory>src/main/webapp</directory>
+                  </resource>
+                </webResources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </build>
+
+  <distributionManagement>
+    <repository>
+      <id>webthereum</id>
+      <name>webthereum</name>
+      <url>file:///C:\eclipse\pleiades\workspace\webthereum\target</url>
+    </repository>
+  </distributionManagement>
+</project>
