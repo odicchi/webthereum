@@ -65,7 +65,7 @@
       <div class="row mt">
         <div class="col-lg-6">
           <h4>To Address</h4>
-          <p>Please select an address to send Token</p>
+          <p>Please select an address to send Token.</p>
           <p:selectOneListbox value="#{accountInfoBean.toAddress}" style="margin-bottom:10px; width:400px;">
             <f:selectItems value="#{accountInfoBean.accountMap.entrySet()}" var="account" itemLabel="#{account.key}" itemValue="#{account.key}" />
           </p:selectOneListbox>
@@ -74,6 +74,7 @@
 
         <div class="col-lg-6">
           <h4>Send Value</h4>
+          <p>Please enter the amount you want to transfer.</p>
           <span class="ui-float-label">
             <p:inputText value="#{accountInfoBean.sendValue}">
             </p:inputText>
@@ -81,8 +82,24 @@
         </div>
         <!-- /col-lg-6 -->
       </div>
+
+      <div class="row mt">
+        <div class="col-lg-6">
+          <h4>What do you send?</h4>
+          <p>Please select a token to send.</p>
+          <p:selectOneListbox value="#{accountInfoBean.token}">
+            <f:selectItem itemLabel="eth" itemValue="eth" />
+            <f:selectItem itemLabel="NISHI" itemValue="NISHI" />
+          </p:selectOneListbox>
+        </div>
+        <!-- /colg-lg-6 -->
+
+        <div class="col-lg-6">
+            <h:commandButton value="Exec Transfer" type="submit" actionListener="#{accountInfoBean.transfer}" />
+        </div>
+        <!-- /col-lg-6 -->
+      </div>
     <!-- /row -->
-     <h:commandButton value="Exec Transfer" type="submit" actionListener="#{accountInfoBean.transfer}" />
   </div>
   <!-- /container -->
   </h:form>

@@ -24,10 +24,12 @@ import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert.Unit;
 import org.web3j.utils.Numeric;
 
+import jp.ethereum.common.WebthereumCommon;
+
 public class SendTransaction {
 
   // ①
-  public static final Admin web3j = Admin.build(new HttpService("http://127.0.0.1:8545"));
+  public static final Admin web3j = Admin.build(new HttpService("http://192.168.33.11:30302"));
 
   public static void main(String args[]) {
 
@@ -103,7 +105,6 @@ public class SendTransaction {
         receipt = Transfer.sendFunds(web3j, credentials, toAddress, BigDecimal.valueOf(value), Unit.ETHER).sendAsync();
       }
 
-      minerStart();
       return receipt.get();
     }catch(IOException | TransactionException ex) {
       ex.printStackTrace();
@@ -119,7 +120,7 @@ public class SendTransaction {
       try {
         // nonce値を取得する
         EthGetTransactionCount ethTransactionCount =
-            web3j.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.PENDING).send();
+            WebthereumCommon.web3j.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.PENDING).send();
         BigInteger nonce = ethTransactionCount.getTransactionCount();
 
         // "eth_sendTransaction"の引数に渡すオブジェクトを作成

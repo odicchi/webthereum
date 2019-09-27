@@ -68,10 +68,19 @@
           <h:outputText value="#{accountInfoBean.address}" style="margin-bottom:10px; width:400px;"></h:outputText>
         </div>
         <!-- /colg-lg-6 -->
+      </div>
 
+      <div class="row mt">
         <div class="col-lg-6">
-          <h4>Balance</h4>
-          <h:outputText value="#{accountInfoBean.balance.toString()}"></h:outputText>
+          <h4>Balance of eth</h4>
+          <h:outputText value="#{accountInfoBean.ethBalance.toString()}"></h:outputText>
+        </div>
+      </div>
+
+      <div class="row mt">
+        <div class="col-lg-6">
+          <h4>Balance of NISHI</h4>
+          <h:outputText value="#{accountInfoBean.nishiBalance.toString()}"></h:outputText>
         </div>
         <!-- /col-lg-6 -->
       </div>

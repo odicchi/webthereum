@@ -21,12 +21,15 @@ import org.web3j.protocol.http.HttpService;
 
 public class WebthereumCommon {
 
-	public static final Admin web3j = Admin.build(new HttpService("http://localhost:8545"));
+	public static final Admin web3j = Admin.build(new HttpService("http://192.168.33.11:30302"));
 
-	private static final String PRIV_KEY_PATH = "C:\\Users\\crypr\\Documents\\private-net\\keystore\\";
-	private static final String PASSWORD = "blah";
+	private static final String PRIV_KEY_PATH = "C:\\Users\\yuki_nishiyama\\Documents\\12_sample_wallet\\key-store\\";
+	private static final String PASSWORD = "infomartpw";
 
-	public static final String BASE_ACCOUNT = "0x945cd603a6754cb13c3d61d8fe240990f86f9f8a";
+	public static final String BASE_ACCOUNT = "0x4e90147dcdd6f6aed51714c9de4eae3899678c75";
+
+	public static final String TOKEN_KIND_ETH = "eth";
+	public static final String TOKEN_KIND_NISHI = "NISHI";
 
 	public static List<String> getAccountList(){
 

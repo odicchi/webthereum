@@ -1,95 +1,131 @@
 package jp.ethereum.bean;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Named;
 
+import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.Uint;
 import org.web3j.crypto.Credentials;
 
+import jp.ethereum.common.ResultType;
 import jp.ethereum.common.WebthereumCommon;
+import jp.ethereum.transaction.OriginalTokenTransaction;
 import jp.ethereum.transaction.SendTransaction;
 
 @Named(value = "accountInfoBean")
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class AccountInfoBean {
 
-	private Map<String, BigInteger> accountMap;
+    // account画面用
+    private Map<String, BigInteger> accountMap;
+    private String address;
+    private BigInteger ethBalance;
+    private BigInteger nishiBalance;
 
+    // transfer画面用
+    private String toAddress;
+    private String sendValue;
+    private String token;
 
-	private String address;
-	private BigInteger balance;
+    @PostConstruct
+    private void init() {
 
-	private String toAddress;
-	private String sendValue;
+        accountMap = new HashMap<>();
+        OriginalTokenTransaction orgToken = new OriginalTokenTransaction();
 
-	@PostConstruct
-	private void init() {
+        List<String> accountList = WebthereumCommon.getAccountList();
 
-		accountMap = new HashMap<>();
+        for(String address:accountList) {
+            accountMap.put(address, WebthereumCommon.getBalance(address));
+        }
+        accountMap.remove(WebthereumCommon.BASE_ACCOUNT);
 
-		List<String> accountList = WebthereumCommon.getAccountList();
+        address = WebthereumCommon.BASE_ACCOUNT;
+        ethBalance = WebthereumCommon.getBalance(address);
+        nishiBalance = orgToken.getBalance(address);
+    }
 
-		for(String address:accountList) {
-			accountMap.put(address, WebthereumCommon.getBalance(address));
-		}
+    public Map<String, BigInteger> getAccountMap() {
+        return accountMap;
+    }
 
-		address = WebthereumCommon.BASE_ACCOUNT;
-		balance = WebthereumCommon.getBalance(address);
-	}
+    public void setAccountMap(Map<String, BigInteger> map) {
+        accountMap = map;
+    }
 
-	public Map<String, BigInteger> getAccountMap() {
-		return accountMap;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setAccountMap(Map<String, BigInteger> map) {
-		accountMap = map;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public BigInteger getEthBalance() {
+        return ethBalance;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setEthBalance(BigInteger ethBalance) {
+        this.ethBalance = ethBalance;
+    }
 
-	public BigInteger getBalance() {
-		return balance;
-	}
+    public BigInteger getNishiBalance() {
+        return nishiBalance;
+    }
 
-	public void setBalance(BigInteger balance) {
-		this.balance = balance;
-	}
+    public void setNishiBalance(BigInteger nishiBalance) {
+        this.nishiBalance = nishiBalance;
+    }
 
-	public String getToAddress() {
-		return toAddress;
-	}
+    public String getToAddress() {
+        return toAddress;
+    }
 
-	public void setToAddress(String toAddress) {
-		this.toAddress = toAddress;
-	}
+    public void setToAddress(String toAddress) {
+        this.toAddress = toAddress;
+    }
 
-	public String getSendValue() {
-		return sendValue;
-	}
+    public String getSendValue() {
+        return sendValue;
+    }
 
-	public void setSendValue(String sendValue) {
-		this.sendValue = sendValue;
-	}
+    public void setSendValue(String sendValue) {
+        this.sendValue = sendValue;
+    }
 
+    public String getToken() {
+        return token;
+    }
 
-	public void transfer() {
+    public void setToken(String token) {
+        this.token = token;
+    }
+    public void transfer() {
 
-		Credentials credentials = WebthereumCommon.getCredentials(WebthereumCommon.BASE_ACCOUNT);
+        Credentials credentials = WebthereumCommon.getCredentials(WebthereumCommon.BASE_ACCOUNT);
 
-		SendTransaction transfer = new SendTransaction();
-		transfer.sendSignedTransaction(credentials, toAddress, BigInteger.valueOf(Long.valueOf(sendValue)));
-	}
+        if(WebthereumCommon.TOKEN_KIND_ETH.equals(token)) {
+            SendTransaction transfer = new SendTransaction();
+            transfer.sendSignedTransaction(credentials, toAddress, BigInteger.valueOf(Long.valueOf(sendValue)));
+        }else if(WebthereumCommon.TOKEN_KIND_NISHI.equals(token)) {
+
+            OriginalTokenTransaction orgToken = new OriginalTokenTransaction();
+
+            List<Type> args = new ArrayList<>();
+            args.add(new Address(toAddress));
+            args.add(new Uint(BigInteger.valueOf(Long.valueOf(sendValue))));
+
+            orgToken.sendSignedTransaction(credentials, args, ResultType.BOOL);
+        }
+    }
 }

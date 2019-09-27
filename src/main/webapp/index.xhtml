@@ -1,22 +1,89 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui">
-  <h:head>
-  </h:head>
-  <h:body>
-     <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5" columnClasses="label, value">
-         <p:outputLabel for="basic" value="Basic:" />
-         <p:selectOneListbox id="basic" value="#{selectOneView.option}">
-            <f:selectItems value="#{accountInfoBean.accountMap}" var="account" itemLabel="#{account}" itemValue="#{account}" />
-        </p:selectOneListbox>
-    </h:panelGrid>
+    xmlns:f="http://java.sun.com/jsf/core">
 
-    <p:dock position="bottom">
-      <p:menuitem value="Home" icon="/resources/images/dock/home.png" url="/index.xhtml"/>
-      <p:menuitem value="Explorer" icon="/resources/images/dock/explorer.png" url="#"/>
-    </p:dock>
-  </h:body>
+<f:loadBundle basename="resources.application" var="msg"/>
+
+<head>
+    <title><h:outputText value="#{msg.welcomeTitle}" /></title>
+    <style type="text/css">
+	.hide{
+    	display: none;
+	}
+</style>
+<script type="text/javascript" language="javascript">
+<!--
+document.getElementByName("fromBalance").style.display="block";
+
+function viewNonce(){
+	alert('viewNonce');
+}
+
+$(function(){
+    $('#fromAddress').change(function(){
+        // 選択されたオプションのkey番号を取得
+        var num = $('#fromAddress').val();
+		alert(num);
+        // 選択値以外に class="hide" を追加
+        $(".targetTd p[id != 'num']").addClass('hide');
+
+        // 取得したkey番号の class="hide" を削除
+        $("p#num).removeClass('hide');
+    });
+});
+-->
+</script>
+
+</head>
+
+<body>
+<h1>Wallet Sample</h1>
+	<h:form>
+		<table>
+			<tr>
+				<td>From Account Address</td>
+				<td>
+					<select name="fromAddress" id="fromAddress" onchange="viewNonce();">
+						<option value=""></option>
+						<ui:repeat value="#{accountInfoBean.accountListInfo}" var="info" varStatus="stat">
+							<option value="#{info.getAddress()}"><h:outputText value="#{info.getAddress()}" /></option>
+						</ui:repeat>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>From Account Balance</td>
+				<td class="targetTd">
+					<ui:repeat value="#{accountInfoBean.accountListInfo}" var="info" varStatus="stat">
+						<p class="hide" name="fromBalance" value="#{stat.index}">
+						<h:outputText value="#{info.getBalance().toString()}" />
+						</p>
+					</ui:repeat>
+				</td>
+			</tr>
+			<tr>
+				<td>To Account Address</td>
+				<td>
+					<select name="toAddress">
+						<option value=""></option>
+						<ui:repeat value="#{accountInfoBean.accountListInfo}" var="info" varStatus="stat">
+							<option value="#{info.getAddress()}"><h:outputText value="#{info.getAddress}" /></option>
+						</ui:repeat>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Send Value</td>
+				<td><input type="text" name="sendValue" /></td>
+			</tr>
+		</table>
+
+		<br />
+		<h:commandButton value="SendSignedTransaction" action="#{accountInfoBean.sendSignedTransaction()}" />
+	</h:form>
+</body>
 </html>
